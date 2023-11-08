@@ -11,7 +11,13 @@ import {
   postMedia,
   putMedia,
 } from "./media.js";
-import { getUsers, getUsersByID } from "./user.js";
+import {
+  deleteUser,
+  getUsers,
+  getUsersByID,
+  postUser,
+  putUser,
+} from "./user.js";
 const app = express();
 const port = 3000;
 const __filename = fileURLToPath(import.meta.url);
@@ -23,7 +29,10 @@ app.set("views", "src/views");
 // render pug a file (home.pug) example
 app.get("/", (req, res) => {
   // any dynamic data can be passed to the template as an object
-  const values = { title: "My REST API", message: "Docs will be here!" };
+  const values = {
+    title: "My REST API",
+    message: "Use /api/media for media queries, use /api/user for user queries",
+  };
   // use name of the template file without extension
   res.render("index", values);
 });
@@ -74,6 +83,12 @@ app.post("/api/media", postMedia);
 app.get("/api/user", getUsers);
 
 app.get("/api/user/:user_id", getUsersByID);
+
+app.post("/api/user", postUser);
+
+app.put("/api/user/:user_id", putUser);
+
+app.delete("/api/user/:user_id", deleteUser);
 
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);

@@ -32,6 +32,37 @@ const postItem = (req, res) => {
   }
 };
 
+const putItem = (req, res) => {
+  console.log("item updated", req.body);
+  const itemId = Number(req.params.id); // convert id to number
+  const itemIndex = items.findIndex((item) => item.id === itemId);
+
+  if (itemIndex !== -1) {
+    // If the item exists, update it
+    items[itemIndex] = { id: itemId, name: req.body.name };
+    res.sendStatus(200);
+  } else {
+    // If the item does not exist, add it
+    items.push({ id: itemId, name: req.body.name });
+    res.sendStatus(201);
+  }
+};
+
+const deleteItem = (req, res) => {
+  console.log("item deleted", req.body);
+  const itemId = Number(req.params.id); // convert id to number
+  const itemIndex = items.findIndex((item) => item.id === itemId);
+
+  if (itemIndex !== -1) {
+    // If the item exists, delete it
+    items.splice(itemIndex, 1);
+    res.sendStatus(200);
+  } else {
+    // If the item does not exist, send an error
+    res.status(404).send("Item not found");
+  }
+};
+
 // TODO: add deleteItem(), putItem() and routing for those in index.js
 
-export { getItems, getItemsById, postItem };
+export { getItems, getItemsById, postItem, putItem, deleteItem };
